@@ -45,18 +45,20 @@ if uploaded_file is not None:
     info = CLASS_INFO[idx]
 
     with col_info:
-        st.success(
-            f"Categoría: **{info['label'].capitalize()}** "
-            f"({prob:.1f} % confianza)"
-        )
+        # ───────── Cartel de confianza según umbral ─────────
+        msg = (f"Categoría: **{info['label'].capitalize()}** "
+            f"({prob:.1f} % confianza)")
 
-        st.markdown(
-            f"**Acción:** Depositá en el contenedor {info['bin_color']}"
-        )
+        if prob >= 85:
+            st.success(msg)
+        elif prob >= 60:
+            st.warning(msg)
+        else:
+            st.error(msg)
 
-        st.markdown(
-            f"**Descripción:** {info['tip']}"
-        )
+        # ───────── Acción + descripción ─────────
+        st.markdown(f"**Acción:** Depositá en el contenedor {info['bin_color']}")
+        st.markdown(f"**Descripción:** {info['tip']}")
 
     # ── Fila horizontal de probabilidades ──
     st.markdown("---")
