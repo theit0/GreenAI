@@ -7,8 +7,6 @@ Este repositorio está organizado para facilitar el desarrollo, entrenamiento y 
 Contiene los datasets utilizados para entrenar y evaluar la red neuronal.
 
 **Ejemplos de contenido:**
-- `training_data.csv`: Datos de entrenamiento.
-- `test_data.csv`: Datos de prueba.
 - Scripts de preprocesamiento de datos.
 
 ## 📁 dev/
