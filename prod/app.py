@@ -1,79 +1,59 @@
-from pathlib import Path
-from typing import Tuple
-
-import torch
+import streamlit as st
 from PIL import Image
-from torchvision import transforms
+from utils import predict, CLASS_INFO
+import pandas as pd
 
-# ---------- Configuración ----------
-MODEL_PATH = Path(__file__).parent / "modelo.pth"
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+st.set_page_config(page_title="GreenAI – Clasificador de residuos",
+                   page_icon="♻️",
+                   layout="centered")
 
-# Mapeo índice → etiqueta → instrucciones
-CLASS_INFO = {
-    0: {
-        "label": "plástico",
-        "bin_color": "amarillo",
-        "symbol": "🔶",
-        "tip": "Envases plásticos limpios y secos van al contenedor amarillo."
-    },
-    1: {
-        "label": "papel",
-        "bin_color": "azul",
-        "symbol": "📘",
-        "tip": "Papel y cartón secos y sin restos de comida van al azul."
-    },
-    2: {
-        "label": "metal",
-        "bin_color": "amarillo",
-        "symbol": "🥫",
-        "tip": "Latas y metálicos limpios se depositan en el contenedor amarillo."
-    },
-    3: {
-        "label": "vidrio",
-        "bin_color": "verde",
-        "symbol": "🍾",
-        "tip": "Vidrios sin tapas ni tapones van al contenedor verde."
-    },
-    4: {
-        "label": "cartón",
-        "bin_color": "azul",
-        "symbol": "📦",
-        "tip": "Cartón plegado y sin restos orgánicos va al azul."
-    },
-    5: {
-        "label": "no reciclable",
-        "bin_color": "gris",
-        "symbol": "🗑️",
-        "tip": "Residuos mezclados u orgánicos van al contenedor gris."
-    },
-}
+st.title("♻️ GreenAI – Clasificador de residuos")
 
-# ---------- Carga del modelo (cacheada por Streamlit) ----------
-@st.cache_resource(show_spinner=False)
-def load_model():
-    model = torch.load(MODEL_PATH, map_location=DEVICE)
-    model.eval()
-    return model
+uploaded_file = st.file_uploader(
+    "Subí una foto del residuo (jpg / png)",
+    type=["jpg", "jpeg", "png"]
+)
 
-# ---------- Preprocesamiento igual al entrenamiento ----------
-preprocess = transforms.Compose([
-    transforms.Resize(256),
-    transforms.CenterCrop(224),
-    transforms.ToTensor(),
-    # normaliza con las medias/desvs que usaste para entrenar
-    transforms.Normalize([0.485, 0.456, 0.406],
-                         [0.229, 0.224, 0.225]),
-])
+if uploaded_file is not None:
+    img = Image.open(uploaded_file)
 
-# ---------- Predicción ----------
-def predict(image: Image.Image, topk: int = 1) -> Tuple[int, float]:
-    """Devuelve índice de clase y probabilidad top-1 (%)."""
-    model = load_model()
-    img_tensor = preprocess(image).unsqueeze(0).to(DEVICE)
+    with st.spinner("Clasificando…"):
+        results = predict(img)           
 
-    with torch.no_grad():
-        logits = model(img_tensor)
-        probs = torch.softmax(logits, dim=1)
-        top_prob, top_idx = probs.topk(topk)
-    return top_idx.item(), top_prob.item() * 100
+    # Resultado
+    col_img, col_info = st.columns([3, 2])   
+
+    with col_img:
+        st.image(img, caption="Imagen cargada", use_container_width=True)
+
+    with col_info:
+        with st.spinner("Clasificando…"):
+            results = predict(img)
+
+        idx, prob = results[0]
+        info = CLASS_INFO[idx]
+
+        st.success(f"Categoría: **{info['label'].capitalize()}** "
+                   f"({prob:.1f} % confianza)")
+
+        col_sym, col_tip = st.columns([1, 4])
+        col_sym.markdown(f"## {info['symbol']}")
+        col_tip.markdown(
+            f"**Depositá en el contenedor {info['bin_color']}**\n\n"
+            f"{info['tip']}"
+        )
+
+    # ---- Tabla + gráfico de probabilidades ----
+    df = pd.DataFrame({
+        "Clase": [CLASS_INFO[i]["label"] for i, _ in results],
+        "Probabilidad (%)": [p for _, p in results],
+    })
+
+    col_table, col_chart = st.columns([1, 1])
+    with col_table:
+        st.dataframe(df, hide_index=True, use_container_width=True)
+    with col_chart:
+        st.bar_chart(
+            df.set_index("Clase")["Probabilidad (%)"],
+            use_container_width=True
+        )
