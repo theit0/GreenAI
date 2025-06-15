@@ -14,39 +14,33 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 # Índice → información de la clase
 CLASS_INFO = {
     0: {
-        "label": "cartón",
-        "bin_color": "azul",
-        "symbol": "📦",
+        "label": "Cartón",
+        "bin_color": "Amarillo",
         "tip": "Dobla el cartón para que ocupe menos espacio y colócalo limpio y seco en el contenedor azul."
     },
     1: {
-        "label": "vidrio",
-        "bin_color": "verde",
-        "symbol": "🍾",
+        "label": "Vidrio",
+        "bin_color": "Verde",
         "tip": "Retira tapas o corchos y deposita el vidrio en el contenedor verde."
     },
     2: {
-        "label": "metal",
-        "bin_color": "amarillo",
-        "symbol": "🥫",
+        "label": "Metal",
+        "bin_color": "Rojo",
         "tip": "Enjuaga latas u otros metales ligeros y llévalos al contenedor amarillo."
     },
     3: {
-        "label": "papel",
-        "bin_color": "azul",
-        "symbol": "📄",
+        "label": "Papel",
+        "bin_color": "Azul",
         "tip": "Papel limpio, sin grapas ni restos de comida, va en el contenedor azul."
     },
     4: {
-        "label": "plástico",
-        "bin_color": "amarillo",
-        "symbol": "🧴",
+        "label": "Plástico",
+        "bin_color": "Naranja",
         "tip": "Envases plásticos limpios y secos se desechan en el contenedor amarillo."
     },
     5: {
-        "label": "no reciclable",
-        "bin_color": "gris",
-        "symbol": "🗑️",
+        "label": "No reciclable",
+        "bin_color": "Gris",
         "tip": "Residuos mezclados u orgánicos se depositan en el contenedor gris."
     },
 }
