@@ -8,7 +8,6 @@ import torchvision.models as models
 
 # ---------- Configuración ----------
 MODEL_PATH = Path(__file__).parent / "modelo.pth"
-print(MODEL_PATH)
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Índice → información de la clase
