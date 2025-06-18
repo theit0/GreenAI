@@ -24,9 +24,7 @@ def _get_client():
     key = os.getenv("GOOGLE_API_KEY") or API_KEY
     if not key:
         raise RuntimeError(
-            "❌ Falta la API key de Google Gemini. "
-            "Defínela como variable de entorno 'GOOGLE_API_KEY' "
-            "o reemplaza la constante API_KEY en google_utils.py."
+            "Falta la API key de Google Gemini. "
         )
 
     return genai.Client(api_key=key)
@@ -43,7 +41,6 @@ def get_ai_tip(waste_class: str) -> str:
     ----------
     waste_class : str
         Etiqueta de la clase (por ej. 'plástico', 'glass', 'cartón', etc.).
-        Se aceptan nombres en español o inglés.
 
     Returns
     -------
