@@ -10,4 +10,4 @@ venv/
 
 # screto
 
-.sreamlit/secrets.toml
+prod/.streamlit/
