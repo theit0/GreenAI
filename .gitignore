@@ -2,8 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
-
+/prod/__pycache__
+/prod/__pycache__/
 # Virtual Environment
 venv
 venv/
