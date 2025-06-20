@@ -2,3 +2,7 @@ streamlit
 torch
 torchvision
 Pillow
+google-genai>=0.1
+requests
+streamlit-js-eval
+streamlit-javascript

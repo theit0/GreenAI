@@ -8,7 +8,6 @@ import torchvision.models as models
 
 # ---------- Configuración ----------
 MODEL_PATH = Path(__file__).parent / "modelo.pth"
-print(MODEL_PATH)
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Índice → información de la clase
@@ -52,7 +51,7 @@ def build_model(num_classes: int = 6):
     model.fc = torch.nn.Linear(model.fc.in_features, num_classes)
     return model
 
-# ---------- Carga del modelo (cacheada por Streamlit) ----------
+# ---------- Carga del modelo ----------
 @st.cache_resource(show_spinner=False)
 def load_model():
     state_dict = torch.load(MODEL_PATH, map_location=DEVICE)
@@ -64,12 +63,9 @@ def load_model():
 
 # ---------- Preprocesamiento igual al entrenamiento ----------
 preprocess = transforms.Compose([
-    transforms.Resize(256),
-    transforms.CenterCrop(224),
+    transforms.Resize((224, 224)),
     transforms.ToTensor(),
-    # normaliza con las medias/desvs que usaste para entrenar
-    transforms.Normalize([0.485, 0.456, 0.406],
-                         [0.229, 0.224, 0.225]),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
 # ---------- Predicción ----------
