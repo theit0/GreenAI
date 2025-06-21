@@ -2,12 +2,13 @@ from __future__ import annotations
 import os
 from functools import lru_cache
 from typing import Final
+import streamlit as st
 
 # ─────────────────────────────────────────────
 # Configuración básica
 # ─────────────────────────────────────────────
 # 1) Clave aquí
-API_KEY: Final[str] = "AIzaSyDNL8Ej2yCaDZ6hZqg_zAyUYsTF80LwdRY"
+API_KEY: Final[str] = st.secrets.get("API_KEY")
 
 # 2) Modelo a utilizar 
 MODEL_NAME: Final[str] = "gemini-2.5-flash"        # Cambia a "gemini-2.5-pro" si lo prefieres
