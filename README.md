@@ -27,5 +27,6 @@ Contiene el código de producción y archivos esenciales para ejecutar la aplica
 - `README.md`: Documentación del proyecto con instrucciones de uso.
 - `requirements.txt`: Lista de dependencias necesarias para ejecutar el proyecto (e.g., PyTorch, Streamlit).
 - `utils.py`: Funciones auxiliares como carga del modelo y preprocesamiento de datos.
-
+- `google_utils.py`: Funciones auxiliares para busqueda en gemini información sobre el material a reciclar.
+- `map_utils.py`: Funciones auxiliares como cargar ubicación, enlace a google maps.
 ---
