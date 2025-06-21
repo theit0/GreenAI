@@ -22,7 +22,7 @@ def _get_client():
     # Importación perezosa para que el módulo se cargue rápido en Streamlit
     from google import genai
 
-    key = os.getenv("GOOGLE_API_KEY") or API_KEY
+    key = os.getenv("API_KEY") or API_KEY
     if not key:
         raise RuntimeError(
             "Falta la API key de Google Gemini. "
