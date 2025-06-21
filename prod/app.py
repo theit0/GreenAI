@@ -68,13 +68,7 @@ if uploaded_file is not None:
             with st.spinner("Cargando..."):
                 ai_tip = get_ai_tip(info['label'])
             st.info(ai_tip)
-
-        # ───────── Botón IA ─────────
-        if st.button("Dame más información", key="ai_tip"):
-            with st.spinner("Cargando..."):
-                ai_tip = get_ai_tip(info["label"])
-            st.info(ai_tip)
-
+       
     # ── Fila horizontal de probabilidades ──
     st.markdown("---")
     st.markdown("#### ¿Qué tan seguro está GreenAI?")
