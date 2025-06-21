@@ -6,4 +6,4 @@ google-genai>=0.1
 requests
 streamlit-js-eval
 streamlit-javascript
-google-cloud-genai
+
