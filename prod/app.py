@@ -35,7 +35,7 @@ if uploaded_file is not None:
     img = Image.open(uploaded_file)
 
     with st.spinner("Clasificando…"):
-        results = predict(img)
+        results = predict(img)            
 
     # ── Layout principal ──
     col_img, col_info = st.columns([3, 2])
@@ -62,6 +62,12 @@ if uploaded_file is not None:
         # ───────── Acción + descripción ─────────
         st.markdown(f"**Acción:** Depositá en el contenedor {info['bin_color']}")
         st.markdown(f"**Descripción:** {info['tip']}")
+        
+        # ───────── Botón IA ─────────
+        if st.button("Dame más información", key="ai_tip"):
+            with st.spinner("Cargando..."):
+                ai_tip = get_ai_tip(info['label'])
+            st.info(ai_tip)
 
         # ───────── Botón IA ─────────
         if st.button("Dame más información", key="ai_tip"):
