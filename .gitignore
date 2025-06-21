@@ -11,3 +11,4 @@ venv/
 # screto
 
 prod/.streamlit/
+prod/.streamlit/secrets.toml
